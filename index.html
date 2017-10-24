@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Virtual Classroom</title>
+    <meta name="description" content="Virtual Classroom 1"></meta>
+    <script src="./aframe.min.js"></script>
+    <script src="./aframe-room-component.min.js"></script>
+    <script src="./aframe-room-component.js"></script>
+	  <script src="./aframe-extras.min.js"></script>
+    <script src="./aframe-look-at-component.min.js"></script>
+    <script src="./aframe-gif-shader.min.js"></script>
+    <script src="./aframe-event-set-component.min.js"></script>
+    <script src="./aframe-mouse-cursor-component.min.js"></script>
+  </head>
+  <body>
+  
+    <a-scene>
+
+      <a-sound id="backgroundmusic" opacity="0" sound="src: url(bg.mp3); autoplay: true; loop: true; volume: 0.03"></a-sound>
+      <a-sound id="intro" opacity="0" sound="src: url(LivingvNon Lesson.mp3); autoplay: true; loop: false"></a-sound>
+
+
+      <a-assets>
+
+        <img id="testTex" src="test2.jpg">
+        <img id="wallpic1" src="pic1.jpg">
+        <img id="wallpic3" src="pic3.jpg">
+        <img id="floor" src="floor.jpg">
+        <img id="ceiling" src="ceiling.jpg">
+
+
+        <a-mixin id="floorMat" material="src:#floor; repeat: 0.9 0.9;"></a-mixin>
+
+		    <a-mixin id="checkpoint"></a-mixin>
+        <a-mixin id="checkpoint-hovered" color="#6CEEB5"></a-mixin>
+
+      </a-assets>
+
+      <a-light type="directional" intensity="0.9" position="-1 -2  2"></a-light>
+      <a-light type="directional" intensity="1.0" position=" 2  1 -1"></a-light>
+
+      <rw-room position="-2.5 0 -2.5">
+
+        <rw-wall height="3" position="0 0 0" material="src:#wallpic1; repeat: 0.2 0.285;">
+          <rw-doorhole id="holeA"></rw-doorhole>
+        </rw-wall>
+        <rw-wall height="3" position="5 0 0" material="src:#testTex; repeat: 0.2 0.285;"></rw-wall>
+        <rw-wall height="3" position="5 0 5" material="src:#testTex; repeat: 0.2 0.285;"></rw-wall>
+        <rw-wall height="3" position="0 0 5" material="src:#testTex; repeat: 0.2 0.285;"></rw-wall>
+
+        <rw-floor mixin="floorMat"></rw-floor>
+        <rw-ceiling material="src:#ceiling; repeat: 0.9 0.9;"></rw-ceiling>
+
+      </rw-room>
+
+
+      <rw-doorlink from="#holeA" to="#holeB" width="2" position="0.5 0 0">
+        <rw-floor mixin="floorMat"></rw-floor>
+        <rw-ceiling material="src:#ceiling; repeat: 0.9 0.9;"></rw-ceiling>
+        <rw-sides material="color:#BB6"></rw-sides>
+      </rw-doorlink>
+
+      <rw-room position="0 0 -2.7">
+
+        <rw-wall position="-2 0 0" material="src:#wallpic1; repeat: 0.22 0.35;"></rw-wall>
+        <rw-wall position=" 2 0 0" material="src:#testTex; repeat: 0.2 0.285;">
+          <rw-doorhole id="holeB"></rw-doorhole>
+        </rw-wall>
+        <rw-wall position=" 2 0 -5" material="src:#testTex; repeat: 0.5 0.5">
+          <rw-doorhole id="holeC"></rw-doorhole>
+          <rw-doorlink from="#holeC" to="#holeD" position="4 0 0"></rw-doorlink>
+        </rw-wall>
+        <rw-wall position="-2 0 -5" material="src:#wallpic3; repeat: 0.25 0.285;">
+         <!-- <a-box position="0.5 1.4 0" scale="0.5 0.5 0.2"></a-box> -->
+        </rw-wall>
+
+        <rw-floor mixin="floorMat"></rw-floor>
+        <rw-ceiling material="src:#ceiling; repeat: 0.9 0.9;"></rw-ceiling>
+
+      </rw-room>
+
+      <rw-room position="2 0 -5">
+
+        <rw-wall position="0 0 0" material="color:orange"></rw-wall>
+        <rw-wall position="0 0 2" material="src:wallpic1; repeat: 5 5">
+          <rw-doorhole id="holeD"></rw-doorhole>
+        </rw-wall>
+        <rw-wall position="1 0 2" material="color:orange"></rw-wall>
+        <rw-wall position="1 0 0" material="src:#wallpic3; repeat: 0.5 0.5;"></rw-wall>
+
+        <rw-floor mixin="floorMat"></rw-floor>
+        <rw-ceiling material="src:#ceiling; repeat: 0.9 0.9;"></rw-ceiling>
+
+      </rw-room>
+
+      <a-entity universal-controls="movementControls: checkpoint"
+      checkpoint-controls="mode: animate">
+      <a-entity camera="userHeight: 1">
+      <a-entity cursor="maxDistance: 30"
+          fuse="true"
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+          position="0 0 -1"
+          geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03;"
+          material="color: #CCC; shader: flat;">
+      </a-entity>
+      </a-entity>
+      </a-entity>
+
+
+<a-sphere checkpoint="" height="2" position="0 0 -4.1" material="color:purple" geometry="primitive:sphere;radius:1" scale="0.1 0.1 0.1" visible="true"></a-sphere>
+<!--<a-sphere checkpoint="" height="2" position="0 0 -2" material="color:white" geometry="primitive:sphere;radius:1" scale="0.1 0.1 0.1" visible="true"></a-sphere>-->
+<!--<a-sphere checkpoint="" height="2" position="0 0 -1" material="color:white" geometry="primitive:sphere;radius:1" scale="0.1 0.1 0.1" visible="true"></a-sphere>-->
+<a-sphere checkpoint="" height="2" position="0 0 1" material="color:purple" geometry="primitive:sphere;radius:1" scale="0.1 0.1 0.1" visible="true"></a-sphere>
+<a-sphere checkpoint="" height="2" position="0 0 -1.5" material="color:purple" geometry="primitive:sphere;radius:1" scale="0.1 0.1 0.1" visible="true"></a-sphere>
+<a-sphere checkpoint="" height="2" position="2.5 0 -3.5" material="color:purple" geometry="primitive:sphere;radius:1" scale="0.1 0.1 0.1" visible="true"></a-sphere>
+<a-sphere checkpoint="" height="2" position="0 0 -6" material="color:purple" geometry="primitive:sphere;radius:1" scale="0.1 0.1 0.1" visible="true"></a-sphere>
+
+
+      <a-entity geometry="primitive:box;width:0.9;height:0.55;depth:0.9;" position="-2 1.3 -0.5" material="shader:gif;src:url(robotdog2.gif);" data-label="left top" rotation="" scale="" visible="">
+        <a-animation attribute="rotation" dur="" fill="forwards" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+      </a-entity>
+
+      <a-entity geometry="primitive:box;width:2.1;height:0.65;depth:0.2;" position="0.45 2.6 -2.5" material="shader:gif;src:url(running water.gif);" data-label="left top" rotation="" scale="" visible="">
+        <a-animation attribute="rotation" dur="" fill="forwards" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+      </a-entity>
+
+      <a-entity geometry="primitive:box;width:1.1;height:0.65;depth:1.8;" position="3 1.3 -1.5" material="shader:gif;src:url(fire.gif);" data-label="left top" rotation="180 180 180" scale="" visible="">
+        <a-animation attribute="rotation" dur="" fill="forwards" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+      </a-entity>
+
+
+      <a-entity geometry="" text="align:center;color:red;value:Click / Gaze To Go To Next Lesson; width: 1.8; height: auto; wrapCount: 15" position="2.47 1 -4.6" material="color:palegreen" data-label="left top" rotation="180 180 180" scale="0.3 0.3 0.3" visible="" link="href: https://www.google.co.za/; title: Next Page;">
+        <a-animation attribute="rotation" dur="" fill="forwards" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+      </a-entity>
+
+      <a-entity geometry="primitive:box;width:0.3;height:0.55;depth:0.9;" position="-2 1.3 -4.2" material="shader:gif;src:url(babies.gif);" data-label="left top" rotation="" scale="" visible="">
+        <a-animation attribute="rotation" dur="" fill="forwards" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+      </a-entity>
+
+      <a-entity geometry="primitive:box;width:0.9;height:0.55;depth:0.9;" position="-2 0.9 -6.2" material="shader:gif;src:url(running2.gif);" data-label="left top" rotation="" scale="" visible="">
+        <a-animation attribute="rotation" dur="" fill="forwards" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+      </a-entity>
+
+      <a-entity geometry="primitive:box;width:1.4;height:0.55;depth:0.1;" position="-1 1.8 -7.5" material="shader:gif;src:url(eating.gif);" data-label="left top" rotation="" scale="" visible="">
+        <a-animation attribute="rotation" dur="" fill="forwards" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+      </a-entity>
+
+      <a-entity geometry="primitive:box;width:1.4;height:0.55;depth:0.1;" position="1 0.7 -7.5" material="shader:gif;src:url(virus2.gif);" data-label="left top" rotation="" scale="" visible="">
+        <a-animation attribute="rotation" dur="" fill="forwards" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+      </a-entity>
+
+      <a-entity geometry="primitive:box;width:0.15;height:0.9;depth:2.1;" position="1.65 1.2 -5.9" material="shader:gif;src:url(growing 2.gif);" data-label="left top" rotation="" scale="" visible="">
+        <a-animation attribute="rotation" dur="" fill="forwards" to="0 360 0" repeat="indefinite" easing="linear"></a-animation>
+      </a-entity>
+
+    <a-entity id="sound1" position="-2 2.1 -0.65" rotation="0 90 0" visible="true" geometry="primitive:plane;height:0.08;width:0.39" material="color:#C71585" text="align:center;color:white;value:Is This Dog Living?;width:1" scale="5 5 5">
+    </a-entity>
+
+    <a-entity id="sound2" position="-2 0.8 -0.2" rotation="0 90 0" visible="true" geometry="primitive:plane;height:0.05;width:0.1" material="color:#C71585" text="align:center;color:white;value:YES;width:1" scale="5 5 5" sound="src: url(Robot Dog- Wrong.mp3); on: click">
+    </a-entity>
+
+    <a-entity id="sound3" position="-2 0.8 -1.1" rotation="0 90 0" visible="true" geometry="primitive:plane;height:0.05;width:0.1" material="color:#C71585" text="align:center;color:white;value:NO;width:1" scale="5 5 5" sound="src: url(Robot Dog- Right.mp3); on: click">
+    </a-entity>
+
+
+    </a-scene>
+
+  </body>
+</html>
